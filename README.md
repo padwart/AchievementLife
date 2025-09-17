@@ -61,4 +61,4 @@ These tests cover schedule recurrence logic, statistics calculation, and persist
 
 ## License
 
-This project is available under the MIT License. See [LICENSE](LICENSE) for details.
+This project is available under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
