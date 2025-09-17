@@ -7,15 +7,16 @@ public struct AchievementPersistence: Sendable {
         if let directoryURL {
             self.fileURL = directoryURL.appendingPathComponent(fileName)
         } else {
-            #if os(iOS) || os(macOS)
-            let defaultDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-            #else
-            let defaultDirectory = FileManager.default.temporaryDirectory
-            #endif
-            self.fileURL = defaultDirectory
-                .appendingPathComponent(fileName)
+           #if os(iOS) || os(macOS)
+        let defaultDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        guard let directory = defaultDirectory else {
+        fatalError("Could not locate document directory")
         }
-    }
+        self.fileURL = directory.appendingPathComponent(fileName)
+        #else
+        let defaultDirectory = FileManager.default.temporaryDirectory
+        self.fileURL = defaultDirectory.appendingPathComponent(fileName)
+        #endif
 
     public func load() throws -> AchievementState {
         guard FileManager.default.fileExists(atPath: fileURL.path) else {
